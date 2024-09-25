@@ -1,8 +1,6 @@
-
 PROJECT_NAME = {{ cookiecutter.repo_name }}
 PYTHON_VERSION = {{ cookiecutter.python_version_number }}
 PYTHON_INTERPRETER = python
-
 
 {% if cookiecutter.dependency_file != 'none' %}
 ## Install Python Dependencies
@@ -47,7 +45,6 @@ setup:
 	git add .
 	git commit -m "Initial commit"
 {% endif %}
-
 
 #################################################################################
 # PROJECT RULES                                                                 #
