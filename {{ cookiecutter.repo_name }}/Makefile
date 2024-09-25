@@ -10,7 +10,7 @@ requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 	{% elif "environment.yml" == cookiecutter.dependency_file -%}
-	conda env update --name $(PROJECT_NAME) --file environment.yml --prune
+	mamba env update --name $(PROJECT_NAME) --file environment.yml --prune
 	{% elif "Pipfile" == cookiecutter.dependency_file -%}
 	pipenv install
 	{% endif %}
@@ -23,12 +23,12 @@ requirements:
 setup:
 	{% if cookiecutter.environment_manager == 'conda' -%}
 	{% if cookiecutter.dependency_file != 'environment.yml' %}
-	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
-	conda activate $(PROJECT_NAME)
+	mamba create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
+	mamba activate $(PROJECT_NAME)
 	
 	{% else -%}
-	conda env create --name $(PROJECT_NAME) -f environment.yml
-	conda activate $(PROJECT_NAME)
+	mamba env create --name $(PROJECT_NAME) -f environment.yml
+	mamba activate $(PROJECT_NAME)
 
 	{% endif %}
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
