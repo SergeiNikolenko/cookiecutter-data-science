@@ -10,6 +10,7 @@ basic = [
     "ipython",
     "jupyterlab",
     "matplotlib",
+    "seaborn",
     "notebook",
     "numpy",
     "pandas",
@@ -19,6 +20,12 @@ basic = [
     "pre-commit",
     "ipykernel",
     "hydra-core",
+    "typer",
+    "loguru",
+    "tqdm",
+    "prefect",
+    "pydantic",
+
 ]
 
 scaffold = [
