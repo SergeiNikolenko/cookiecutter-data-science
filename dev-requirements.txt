@@ -1,19 +1,25 @@
 -e .
 
-ansi2html
 black
 build
 chardet
 flake8
 isort
+notebook
+
 mkdocs
 mkdocs-material
 mkdocs-gen-files
 mkdocs-include-markdown-plugin
+
 pexpect
+pytest
+pre-commit
+ipykernel
 pipenv
 pytest
 termynal
 twine
+hydra-core
 virtualenvwrapper; sys_platform != 'win32'
 virtualenvwrapper-win; sys_platform == 'win32'

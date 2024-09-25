@@ -1,14 +1,8 @@
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
 
 PROJECT_NAME = {{ cookiecutter.repo_name }}
 PYTHON_VERSION = {{ cookiecutter.python_version_number }}
 PYTHON_INTERPRETER = python
 
-#################################################################################
-# COMMANDS                                                                      #
-#################################################################################
 
 {% if cookiecutter.dependency_file != 'none' %}
 ## Install Python Dependencies
@@ -25,61 +19,19 @@ requirements:
 {% endif %}
 
 
-## Delete all compiled Python files
-.PHONY: clean
-clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
-
-## Lint using flake8 and black (use `make format` to do formatting)
-.PHONY: lint
-lint:
-	flake8 {{ cookiecutter.module_name }}
-	isort --check --diff --profile black {{ cookiecutter.module_name }}
-	black --check --config pyproject.toml {{ cookiecutter.module_name }}
-
-## Format source code with black
-.PHONY: format
-format:
-	black --config pyproject.toml {{ cookiecutter.module_name }}
-
-{% if not cookiecutter.dataset_storage.none %}
-## Download Data from storage system
-.PHONY: sync_data_down
-sync_data_down:
-	{% if cookiecutter.dataset_storage.s3 -%}
-	aws s3 sync s3://{{ cookiecutter.dataset_storage.s3.bucket }}/data/ \
-		data/ {% if cookiecutter.dataset_storage.s3.aws_profile != 'default' %} --profile {{ cookiecutter.dataset_storage.s3.aws_profile }}{% endif %}
-	{% elif cookiecutter.dataset_storage.azure -%}
-	az storage blob download-batch -s {{ cookiecutter.dataset_storage.azure.container }}/data/ \
-		-d data/
-	{% elif cookiecutter.dataset_storage.gcs -%}
-	gsutil -m rsync -r gs://{{ cookiecutter.dataset_storage.gcs.bucket }}/data/ data/
-	{% endif %}
-
-## Upload Data to storage system
-.PHONY: sync_data_up
-sync_data_up:
-	{% if cookiecutter.dataset_storage.s3 -%}
-	aws s3 sync data/ \
-		s3://{{ cookiecutter.dataset_storage.s3.bucket }}/data {% if cookiecutter.dataset_storage.s3.aws_profile != 'default' %} --profile {{ cookiecutter.dataset_storage.s3.aws_profile }}{% endif %}
-	{% elif cookiecutter.dataset_storage.azure -%}
-	az storage blob upload-batch -d {{ cookiecutter.dataset_storage.azure.container }}/data/ \
-		-s data/
-	{% elif cookiecutter.dataset_storage.gcs -%}
-	gsutil -m rsync -r data/ gs://{{ cookiecutter.dataset_storage.gcs.bucket }}/data/
-	{% endif %}
-{% endif %}
-
 {% if cookiecutter.environment_manager != 'none' %}
 ## Set up python interpreter environment
-.PHONY: create_environment
-create_environment:
+.PHONY: setup
+setup:
 	{% if cookiecutter.environment_manager == 'conda' -%}
 	{% if cookiecutter.dependency_file != 'environment.yml' %}
 	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
+	conda activate $(PROJECT_NAME)
+	
 	{% else -%}
 	conda env create --name $(PROJECT_NAME) -f environment.yml
+	conda activate $(PROJECT_NAME)
+
 	{% endif %}
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 	{% elif cookiecutter.environment_manager == 'virtualenv' -%}
@@ -89,6 +41,11 @@ create_environment:
 	pipenv --python $(PYTHON_VERSION)
 	@echo ">>> New pipenv created. Activate with:\npipenv shell"
 	{% endif %}
+
+	@echo "Initializing Git..."
+	git init
+	git add .
+	git commit -m "Initial commit"
 {% endif %}
 
 

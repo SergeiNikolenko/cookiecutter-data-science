@@ -14,6 +14,11 @@ basic = [
     "numpy",
     "pandas",
     "scikit-learn",
+    "pexpect",
+    "pytest",
+    "pre-commit",
+    "ipykernel",
+    "hydra-core",
 ]
 
 scaffold = [
