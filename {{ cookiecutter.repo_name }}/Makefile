@@ -19,16 +19,14 @@ requirements:
 
 {% if cookiecutter.environment_manager != 'none' %}
 ## Set up python interpreter environment
-.PHONY: setup
-setup:
+.PHONY: environment
+environment:
 	{% if cookiecutter.environment_manager == 'conda' -%}
 	{% if cookiecutter.dependency_file != 'environment.yml' %}
 	mamba create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
-	mamba activate $(PROJECT_NAME)
 	
 	{% else -%}
 	mamba env create --name $(PROJECT_NAME) -f environment.yml
-	conda activate $(PROJECT_NAME)
 
 	{% endif %}
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
@@ -40,17 +38,24 @@ setup:
 	@echo ">>> New pipenv created. Activate with:\npipenv shell"
 	{% endif %}
 
+
+{% endif %}
+
+## Initialize git
+.PHONY: git
+git:
 	@echo "Initializing Git..."
 	git init
 	git add .
 	git commit -m "Initial commit"
 
+## Initialize pre-commit
+.PHONY: pre-commit
+pre-commit:
 	@echo "Initializing pre-commit..."
 	pre-commit install
 	pre-commit run --all-files
-
-{% endif %}
-
+	
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################

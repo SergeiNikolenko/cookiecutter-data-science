@@ -21,11 +21,6 @@ repos:
       - id: checkov
         args: [-d .]
 
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.17.0
-    hooks:
-      - id: yamllint
-        args: [-c=.yamllint]
 
   - repo: https://github.com/Agilicus/pre-commit-hook-k8svalidate.git
     rev: v0.0.8
@@ -51,7 +46,6 @@ repos:
     hooks:
       - id: ruff
         args: [ --fix ]
-      - id: ruff-format
 
 
 
@@ -71,4 +65,3 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
-
