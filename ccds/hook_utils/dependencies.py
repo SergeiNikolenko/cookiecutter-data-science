@@ -1,9 +1,17 @@
 packages = [
     "black",
-    "flake8",
-    "isort",
+    "ruff",
     "pip",
     "python-dotenv",
+    "pytest",
+    "pre-commit",
+    "ipykernel",
+    "hydra-core",
+    "typer",
+    "loguru",
+    "tqdm",
+    "prefect",
+    "pydantic",
 ]
 
 basic = [
@@ -16,15 +24,6 @@ basic = [
     "pandas",
     "scikit-learn",
     "pexpect",
-    "pytest",
-    "pre-commit",
-    "ipykernel",
-    "hydra-core",
-    "typer",
-    "loguru",
-    "tqdm",
-    "prefect",
-    "pydantic",
 
 ]
 
