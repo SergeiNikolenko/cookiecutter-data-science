@@ -28,7 +28,7 @@ setup:
 	
 	{% else -%}
 	mamba env create --name $(PROJECT_NAME) -f environment.yml
-	mamba activate $(PROJECT_NAME)
+	conda activate $(PROJECT_NAME)
 
 	{% endif %}
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
