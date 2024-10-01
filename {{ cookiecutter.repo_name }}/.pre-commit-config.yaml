@@ -30,22 +30,19 @@ repos:
 
         files: .yaml$
 
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.2.0
-    hooks:
-
-      - id: detect-secrets
-
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.7
+    rev: v0.6.8
     hooks:
       - id: ruff
+        types_or: [ python, pyi ]
         args: [ --fix ]
+      - id: ruff-format
+        types_or: [ python, pyi ]
 
 
 
